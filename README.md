@@ -1,2 +1,2 @@
-# simple-cmdb
+# simpleCMDB
 a simple cmdb
