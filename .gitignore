@@ -60,5 +60,5 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
-dashboard/migrations
+**/migrations
 db.sqlite3
