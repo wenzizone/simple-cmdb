@@ -24,8 +24,12 @@
     <!-- DataTables Responsive CSS -->
     <link href="{% static "bower_components/datatables-responsive/css/dataTables.responsive.css" %}" rel="stylesheet">
 
+    <!-- BootstrapValidator CSS -->
+    <link href="{% static "bower_components/bootstrapvalidator/dist/css/bootstrapValidator.min.css" %}" rel="stylesheet">
+
     <!-- Timeline CSS -->
     <link href="{% static "dist/css/timeline.css" %}" rel="stylesheet">
+
 
     <!-- Custom CSS -->
     <link href="{% static "dist/css/sb-admin-2.css" %}" rel="stylesheet">
@@ -324,9 +328,17 @@
     <!-- <script src="{% static "bower_components/morrisjs/morris.min.js" %}"></script> -->
     <!-- <script src="{% static "js/morris-data.js" %}"></script> -->
 
+    <!-- BootstrapValidator JavaScript -->
+    <script src="{% static "bower_components/bootstrapvalidator/dist/js/bootstrapValidator.min.js" %}"></script>
+
+    <!-- UnderScore JavaScript -->
+    <script src="{% static "bower_components/underscore/underscore-min.js" %}"></script>
+
     <!-- Custom Theme JavaScript -->
     <script src="{% static "dist/js/sb-admin-2.js" %}"></script>
 
+    {% block customjs %}{% endblock %}
+    
     <script>
     $(document).ready(function() {
         $('#dataTables-example').DataTable({

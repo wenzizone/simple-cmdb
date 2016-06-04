@@ -8,6 +8,10 @@ from django.db import models
 # 服务器所在机房
 class Idc(models.Model):
     name = models.CharField(max_length=50)
+    comments = models.CharField(max_length=255,null=True)
+
+    def __unicode__(self):
+        return u'%s %s' %(self.name, self.comments)
 
 # 服务项目
 class Product(models.Model):
