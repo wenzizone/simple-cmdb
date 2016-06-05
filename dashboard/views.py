@@ -2,12 +2,12 @@
 
 import json
 
+from . import models
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import SESSION_KEY
 from django.core import serializers
 from django.template import RequestContext
-from django.db import IntegrityError
 
 # Create your views here.
 
@@ -15,12 +15,26 @@ def index(request):
     return render(request, "dashboard/index.html")
 
 def idc(request):
-    return render(request, "dashboard/idc.html")
+    #if not request.user.is_authenticated():
+    #    return HttpResponseRedirect("/login")
+    data = {}
+    #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
+    idcNameList = models.Idc.objects.values()
+    if idcNameList:
+        data = {'status': True, 'idcNameList': idcNameList}
+    else:
+
+        data = {'status': False}
+        print data
+
+    return render(request, "dashboard/idc.html", {'data':data})
 
 def product(request):
     return HttpResponse("hello product")
 
+###################
 # api part
+###################
 
 ## 添加新的idc
 def addIdc(request):
@@ -30,11 +44,11 @@ def addIdc(request):
             print request.POST
             idcName = request.POST['inputIdcname'].strip()
             idcExtraInfo = request.POST['textIdcExtroInfo'].strip()
-            is_idc_in_db = Idc.objects.filter(name=idcName)
+            is_idc_in_db = models.Idc.objects.filter(name=idcName)
             if is_idc_in_db:
                 data = {'status': 1, "message": u'%s %s' % (idcName, u'已经存在于数据库中!!')}
             else:
-                idcNameList = Idc(name=idcName, comments=idcExtraInfo)
+                idcNameList = models.Idc(name=idcName, comments=idcExtraInfo)
                 idcNameList.save()
                 print idcNameList.id
                 if idcNameList.id:
