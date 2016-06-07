@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 
 import json
 
@@ -11,11 +11,13 @@ from django.template import RequestContext
 
 # Create your views here.
 
+
 def index(request):
     return render(request, "dashboard/index.html")
 
+
 def idc(request):
-    #if not request.user.is_authenticated():
+    # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
     data = {}
     #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
@@ -27,16 +29,31 @@ def idc(request):
         data = {'status': False}
         print data
 
-    return render(request, "dashboard/idc.html", {'data':data})
+    return render(request, "dashboard/idc.html", {'data': data})
+
 
 def product(request):
-    return HttpResponse("hello product")
+    # if not request.user.is_authenticated():
+    #    return HttpResponseRedirect("/login")
+    data = {}
+    #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
+    productList = models.Product.objects.values()
+    if productList:
+        data = {'status': True, 'productList': productList}
+    else:
+
+        data = {'status': False}
+        print data
+
+    return render(request, "dashboard/product.html", {'data': data})
 
 ###################
 # api part
 ###################
 
-## 添加新的idc
+# 添加新的idc
+
+
 def addIdc(request):
     data = {}
     if request.is_ajax():
@@ -46,13 +63,16 @@ def addIdc(request):
             idcExtraInfo = request.POST['textIdcExtroInfo'].strip()
             is_idc_in_db = models.Idc.objects.filter(name=idcName)
             if is_idc_in_db:
-                data = {'status': 1, "message": u'%s %s' % (idcName, u'已经存在于数据库中!!')}
+                data = {'status': 1, "message": u'%s %s' % (
+                    idcName, u'已经存在于数据库中!!')}
             else:
                 idcNameList = models.Idc(name=idcName, comments=idcExtraInfo)
                 idcNameList.save()
                 print idcNameList.id
                 if idcNameList.id:
-                    data = {'status': 0, "message": u'%s %s' %(idcName, u'添加成功.')}
+                    data = {'status': 0, "message": u'%s %s' % (
+                        idcName, u'添加成功.')}
                 else:
-                    data = {'status': '-1', "message": u'%s %s' %(idcName, u'添加失败，请重试')}
+                    data = {'status': '-1',
+                            "message": u'%s %s' % (idcName, u'添加失败，请重试')}
     return HttpResponse(json.dumps(data), content_type="application/json")
