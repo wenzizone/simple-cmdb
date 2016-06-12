@@ -1,0 +1,42 @@
+<div class="modal fade" id="newProduct" tabindex="-1" role="dialog" aria-labelledby="newProductLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加新的产品服务</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" id="addNewProductForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="inputProductname" class="col-xs-3 control-label">产品名称</label>
+                        <div class="col-xs-7">
+                            <input type="text" class="form-control" id="inputProductname" name="inputProductname" placeholder="xwiki">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputSubProduct" class="col-xs-3 control-label">子产品</label>
+                        <div class="col-xs-7">
+                            <input type="text" disabled class="form-control" id="inputSubProduc" name="inputSubProduct">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="textProductExtroInfo" class="col-xs-3 control-label">备注</label>
+                        <div class="col-xs-7">
+                            <textarea class="form-control" id="textProductExtroInfo" rows="2" name="textProductExtroInfo" placeholder="我是产品描述"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="submit" class="btn btn-primary" id="action-addProduct">保存</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

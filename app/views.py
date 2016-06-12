@@ -9,11 +9,10 @@ from django.contrib.auth import SESSION_KEY
 from django.core import serializers
 from django.template import RequestContext
 
+
 # Create your views here.
-
-
 def index(request):
-    return render(request, "dashboard/index.html")
+    return render(request, "app/index.html")
 
 
 def idc(request):
@@ -29,7 +28,7 @@ def idc(request):
         data = {'status': False}
         print data
 
-    return render(request, "dashboard/idc.html", {'data': data})
+    return render(request, "app/idc.html", {'data': data})
 
 
 def product(request):
@@ -45,15 +44,30 @@ def product(request):
         data = {'status': False}
         print data
 
-    return render(request, "dashboard/product.html", {'data': data})
+    return render(request, "app/product.html", {'data': data})
+
+
+def server(request):
+    # if not request.user.is_authenticated():
+    #    return HttpResponseRedirect("/login")
+    data = {}
+    #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
+    serverList = models.Server.objects.values()
+    if serverList:
+        data = {'status': True, 'serverList': serverList}
+    else:
+
+        data = {'status': False}
+        print data
+
+    return render(request, "app/server.html", {'data': data})
 
 ###################
 # api part
 ###################
 
+
 # 添加新的idc
-
-
 def addIdc(request):
     data = {}
     if request.is_ajax():
@@ -75,4 +89,30 @@ def addIdc(request):
                 else:
                     data = {'status': '-1',
                             "message": u'%s %s' % (idcName, u'添加失败，请重试')}
+    return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+# 添加新的产品服务
+def addProduct(request):
+    data = {}
+    if request.is_ajax():
+        if request.method == 'POST':
+            print request.POST
+            productName = request.POST['inputProductname'].strip()
+            productExtraInfo = request.POST['textProductExtroInfo'].strip()
+            is_product_in_db = models.Product.objects.filter(name=productName)
+            if is_product_in_db:
+                data = {'status': 1, "message": u'%s %s' % (
+                    productName, u'已经存在于数据库中!! 请刷新查看')}
+            else:
+                productNameList = models.Product(
+                    name=productName, product_info=productExtraInfo)
+                productNameList.save()
+                print productNameList.id
+                if productNameList.id:
+                    data = {'status': 0, "message": u'%s %s' % (
+                        productName, u'添加成功.')}
+                else:
+                    data = {'status': '-1',
+                            "message": u'%s %s' % (productName, u'添加失败，请重试')}
     return HttpResponse(json.dumps(data), content_type="application/json")

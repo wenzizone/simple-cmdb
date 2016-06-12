@@ -20,7 +20,6 @@ $(document).ready(function(){
         e.preventDefault();
 
         var $form = $(e.target);
-        fv    = $form.data('formValidation');
         console.log(e)
         console.log($form.serialize());
         $.ajax({
@@ -37,6 +36,54 @@ $(document).ready(function(){
                         break;
                     case 1:
                         alert(data['message']);
+                        break;
+                    case "-1":
+                        alert(data['message']);
+                        break;
+                }
+            }
+        })
+    }) //end on
+
+    // 添加新的产品
+    $('#addNewProductForm').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            inputProductname: {
+                trigger: 'blur',
+                validators: {
+                    notEmpty: {
+                        message: '产品名称不能为空'
+                    }
+                }
+            }
+        }
+    }) //end bootstrapValidator
+    .on('success.form.bv', function(e) {
+        e.preventDefault();
+
+        var $form = $(e.target);
+        console.log($form.serialize());
+        $.ajax({
+            url: '/api/addProduct',
+            type: 'post',
+            data: $form.serialize(),
+            dateType: 'json',
+            success: function(data) {
+                switch (data['status']) {
+                    case 0:
+                        alert(data['message']);
+                        $('#newProduct').modal('hide');
+                        window.location.href='/product';
+                        break;
+                    case 1:
+                        alert(data['message']);
+                        $('#newProduct').modal('hide');
+                        window.location.href='/product';
                         break;
                     case "-1":
                         alert(data['message']);
