@@ -19,7 +19,7 @@
                 主机列表
                 <ul class="nav navbar-top-links navbar-right">
                         <li>
-                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#newserver">添加主机</button>
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#newServer">添加主机</button>
                         </li>
                 </ul>
             </div>
@@ -31,17 +31,27 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>机房名称</th>
-                                <th>机房其他信息</th>
+                                <th>主机IP</th>
+                                <th>主机所在机房</th>
+                                <th>需要部署的服务</th>
+                                <th>是否在国内</th>
+                                <th>运行状态</th>
+                                <th>创建时间</th>
+                                <th>更新时间</th>
                                 <th>功能</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in data.idcNameList %}
+                            {% for item in data.serverList %}
                             <tr>
                                 <td>{{item.id}}</td>
-                                <td>{{item.name}}</td>
-                                <td>{{item.comments|default:"N/A"}}</td>
+                                <td>{{item.public_ip}}</td>
+                                <td>{{item.cloud.name}}</td>
+                                <td>{{item.product.name}}</td>
+                                <td>{{item.in_china}}</td>
+                                <td>{{item.server_status}}</td>
+                                <td>{{item.create_time}}</td>
+                                <td>{{item.update_time|default:"N/A"}}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-xs">编辑</button>
                                     <button type="button" class="btn btn-primary btn-xs">删除</button>

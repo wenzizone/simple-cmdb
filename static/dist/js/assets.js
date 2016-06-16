@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    // 添加新的cloud
     $('#addNewIdcForm').bootstrapValidator({
         feedbackIcons: {
             valid: 'glyphicon glyphicon-ok',
@@ -93,6 +94,56 @@ $(document).ready(function(){
         })
     }) //end on
 
+    // 添加新主机
+    $('#addNewServerForm').bootstrapValidator({
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            inputServerIp: {
+                trigger: 'blur',
+                validators: {
+                    notEmpty: {
+                        message: 'ip地址不能为空'
+                    },
+                    ip: {
+                        message: '请输入合法的ip地址'
+                    }
+                }
+            }
+        }
+    }) //end bootstrapValidator
+    .on('success.form.bv', function(e) {
+        e.preventDefault();
+
+        var $form = $(e.target);
+        console.log($form.serialize());
+        $.ajax({
+            url: '/api/addServer',
+            type: 'post',
+            data: $form.serialize(),
+            dateType: 'json',
+            success: function(data) {
+                switch (data['status']) {
+                    case 0:
+                        alert(data['message']);
+                        $('#newServer').modal('hide');
+                        window.location.href='/server';
+                        break;
+                    case 1:
+                        alert(data['message']);
+                        $('#newServer').modal('hide');
+                        window.location.href='/server';
+                        break;
+                    case "-1":
+                        alert(data['message']);
+                        break;
+                }
+            }
+        })
+    }) //end on
 /*
     $("#inputIdcContractStartTime").datetimepicker({
         format: "yyyy-mm-dd",

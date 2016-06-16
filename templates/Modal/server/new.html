@@ -1,31 +1,56 @@
-<div class="modal fade" id="newIdc" tabindex="-1" role="dialog" aria-labelledby="newIdcLabel" aria-hidden="true">
+<div class="modal fade" id="newServer" tabindex="-1" role="dialog" aria-labelledby="newServerLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">添加新的idc机房信息</h4>
+                <h4 class="modal-title" id="myModalLabel">添加新主机</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form" id="addNewIdcForm">
+                <form class="form-horizontal" role="form" id="addNewServerForm">
                     {% csrf_token %}
                     <div class="form-group">
-                        <label for="inputIdcname" class="col-xs-3 control-label">机房名称</label>
+                        <label for="inputServerIp" class="col-xs-3 control-label">主机ip</label>
                         <div class="col-xs-7">
-                            <input type="text" class="form-control" id="inputIdcname" name="inputIdcname" placeholder="aws-cn">
+                            <input type="text" class="form-control" id="inputServerIp" name="inputServerIp" placeholder="外网ip">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="textIdcExtroInfo" class="col-xs-3 control-label">备注</label>
+                        <label for="selectCloud" class="col-xs-3 control-label">所属机房</label>
                         <div class="col-xs-7">
-                            <textarea class="form-control" id="textIdcExtroInfo" rows="2" name="textIdcExtroInfo" placeholder="网通机房"></textarea>
+                            <select name="selectCloud" id="selectCloud" class="form-control">
+                                {% for item in data.cloudList %}
+                                <option value="{{item.id}}">{{item.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectProduct" class="col-xs-3 control-label">需要部署的产品</label>
+                        <div class="col-xs-7">
+                            <select name="selectProduct" id="selectProduct" class="form-control">
+                                {% for item in data.productList %}
+                                <option value="{{item.id}}">{{item.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="selectLocation" class="col-xs-3 control-label">主机是否在国内</label>
+                        <div class="col-xs-7">
+                            <select name="selectLocation" id="selectLocation" class="form-control">
+                                <option value="yes" selected>在国内</option>
+                                <option value="no">不在国内</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                            <button type="submit" class="btn btn-primary" id="action-addIdc">保存</button>
+                            <button type="submit" class="btn btn-primary" id="action-addServer">保存</button>
                         </div>
                     </div>
                 </form>
