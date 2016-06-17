@@ -53,6 +53,7 @@
                                 <td>{{item.create_time}}</td>
                                 <td>{{item.update_time|default:"N/A"}}</td>
                                 <td>
+                                    <button type="button" class="btn btn-primary btn-xs" onclick="show_server_detail({{item.id}})">详情</button>
                                     <button type="button" class="btn btn-primary btn-xs">编辑</button>
                                     <button type="button" class="btn btn-primary btn-xs">删除</button>
                                 </td>
@@ -80,5 +81,6 @@
 
 <!-- Modal -->
 {% include 'Modal/server/new.html' %}
+{% include 'Modal/server/detail.html' %}
 
 {% endblock %}

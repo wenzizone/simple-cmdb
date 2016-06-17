@@ -1,4 +1,7 @@
+var API_BASE = location.protocol+'//'+location.hostname+":"+(location.port!=""?location.port:80);
+
 $(document).ready(function(){
+
     // 添加新的cloud
     $('#addNewIdcForm').bootstrapValidator({
         feedbackIcons: {
@@ -144,6 +147,8 @@ $(document).ready(function(){
             }
         })
     }) //end on
+
+
 /*
     $("#inputIdcContractStartTime").datetimepicker({
         format: "yyyy-mm-dd",
@@ -559,3 +564,18 @@ $(document).ready(function(){
     }
 }); //end document
 
+// 显示主机详细信息
+function show_server_detail(server_id){ // = function(server_id) {
+    $('#serverDetail').modal("show")
+    $('#tb-sd').dataTable({
+        "processing": true,
+        "destroy": true,
+        "bFilter": false,
+        "bInfo": false,
+        "paging": false,
+        "bLengthChange":false,
+        "iDisplayLength": 10,
+        "sAjaxSource": API_BASE+"/api/sd/"+server_id,
+        "sDom": 'rt<"left"p>'
+    });
+};

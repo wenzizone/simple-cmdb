@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import SESSION_KEY
 from django.core import serializers
 from django.template import RequestContext
-#from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -158,6 +158,18 @@ def addServer(request):
                     data = {'status': '-1',
                             "message": u'%s %s' % (serverIp, u'添加失败，请重试')}
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+# 获取server详细信息
+@ensure_csrf_cookie
+def sd(request, server_id):
+    res = {}
+    data = []
+    sd = models.Detail.objects.select_related('server').get(id=server_id)
+    tmparry = [sd.hostname, sd.server.public_ip, sd.internal_ip, sd.system]
+    res['data'] = [tmparry]
+
+    return HttpResponse(json.dumps(res), content_type="application/json")
 
 
 # ansible callback update server info
