@@ -55,15 +55,13 @@ def server(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
     data = {}
-    #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
-    serverList = models.Server.objects.all()
     cloudList = models.Cloud.objects.all()
     productList = models.Product.objects.all()
+    serverList = models.Server.objects.all()  # .select_related('detail_set')
 
-    print serverList
     if serverList:
         data = {'status': True, 'serverList': serverList, 'cloudList': cloudList,
-                'productList': productList}
+                'productList': productList}  # 'sdList': sdList}
     else:
 
         data = {'status': False, 'cloudList': cloudList,
@@ -71,6 +69,7 @@ def server(request):
         print data
 
     return render(request, "app/server.html", {'data': data})
+
 
 ###################
 # api part
@@ -102,6 +101,13 @@ def addIdc(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
+# 删除机房
+def delIdc(request, idc_id):
+    c = models.Cloud.objects.get(id=idc_id)
+    r = c.delete()
+    return HttpResponse(json.dumps(r), content_type="application/json")
+
+
 # 添加新的产品服务
 def addProduct(request):
     data = {}
@@ -128,7 +134,15 @@ def addProduct(request):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
+# 删除产品
+def delProduct(request, product_id):
+    p = models.Product.objects.get(id=product_id)
+    r = p.delete()
+    return HttpResponse(json.dumps(r), content_type="application/json")
+
 # 添加新主机
+
+
 def addServer(request):
     data = {}
     if request.is_ajax():
@@ -158,6 +172,13 @@ def addServer(request):
                     data = {'status': '-1',
                             "message": u'%s %s' % (serverIp, u'添加失败，请重试')}
     return HttpResponse(json.dumps(data), content_type="application/json")
+
+
+# 删除server
+def delServer(request, server_id):
+    s = models.Server.objects.get(id=server_id)
+    r = s.delete()
+    return HttpResponse(json.dumps(r), content_type="application/json")
 
 
 # 获取server详细信息

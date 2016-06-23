@@ -148,6 +148,9 @@ $(document).ready(function(){
         })
     }) //end on
 
+    // 主机列表datatable
+    $('#serverList').dataTable();
+
 
 /*
     $("#inputIdcContractStartTime").datetimepicker({
@@ -452,7 +455,6 @@ $(document).ready(function(){
         })
     }) //end on
 
-    $('#tableWanIp').dataTable();
 
     // wanIp tab
     $('#wanIp').on('click',function(e) {
@@ -579,3 +581,130 @@ function show_server_detail(server_id){ // = function(server_id) {
         "sDom": 'rt<"left"p>'
     });
 };
+
+// 产品，主机，idc删除操作
+function del(action, action_id, action_name) {
+    switch(action) {
+        case "delServer":
+            r = confirm("确认删除"+action_name+"的主机")
+            if (r == true) {
+                $.ajax({
+                    url: '/api/'+action+'/'+action_id,
+                    type: 'get',
+                    dateType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        switch (data[0]) {
+                            case 1:
+                                alert("删除主机成功");
+                                window.location.href='/server';
+                                break;
+                        }
+                    }
+                })
+            }
+            break;
+        case "delProduct":
+            r = confirm("确认删除\""+action_name+"\"产品？？")
+            if (r == true) {
+                $.ajax({
+                    url: '/api/'+action+'/'+action_id,
+                    type: 'get',
+                    dateType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        switch (data[0]) {
+                            case 1:
+                                alert("删除产品成功");
+                                window.location.href='/product';
+                                break;
+                        }
+                    }
+                })
+            }
+            break;
+        case "delIdc":
+            r = confirm("确认删除\""+action_name+"??")
+            if (r == true) {
+                $.ajax({
+                    url: '/api/'+action+'/'+action_id,
+                    type: 'get',
+                    dateType: 'json',
+                    success: function(data) {
+                        console.log(data)
+                        switch (data[0]) {
+                            case 1:
+                                alert("删除IDC成功");
+                                window.location.href='/idc';
+                                break;
+                        }
+                    }
+                })
+            }
+            break;
+    }
+}
+
+
+// 删除主机信息
+function delete_server(server_id, public_ip) {
+    r = confirm("确认删除"+public_ip+"的主机")
+    if (r == true) {
+        $.ajax({
+            url: '/api/delServer/'+server_id,
+            type: 'get',
+            dateType: 'json',
+            success: function(data) {
+                console.log(data)
+                switch (data[0]) {
+                    case 1:
+                        alert("删除主机成功");
+                        window.location.href='/server';
+                        break;
+                }
+            }
+        })
+    }
+}
+
+// 删除产品信息
+function del_product(product_id, product_name) {
+    r = confirm("确认删除\""+product_name+"\"产品？？")
+    if (r == true) {
+        $.ajax({
+            url: '/api/delProduct/'+product_id,
+            type: 'get',
+            dateType: 'json',
+            success: function(data) {
+                console.log(data)
+                switch (data[0]) {
+                    case 1:
+                        alert("删除产品成功");
+                        window.location.href='/product';
+                        break;
+                }
+            }
+        })
+    }
+}
+
+// 删除IDC信息
+function del_idc(idc_id, idc_name) {
+    r = confirm("确认删除\""+idc_name+"??")
+    if (r == true) {
+        $.ajax({
+            url: '/api/delIdc/'+idc_id,
+            type: 'get',
+            dateType: 'json',
+            success: function(data) {
+                console.log(data)
+                switch (data[0]) {
+                    case 1:
+                        alert("删除产品成功");
+                        window.location.href='/product';
+                        break;
+                }
+            }
+        })
+    }
+}

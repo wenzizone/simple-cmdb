@@ -47,7 +47,7 @@ class Server(models.Model):
 # 服务器详细信息
 # 在ansible执行的时候，自动更新
 class Detail(models.Model):
-    server = models.ForeignKey(Server)
+    server = models.ForeignKey(Server, unique=True)
     hostname = models.CharField(max_length=255)
     internal_ip = models.GenericIPAddressField()
     system = models.CharField(max_length=50)

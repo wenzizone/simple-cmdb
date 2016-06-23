@@ -44,7 +44,7 @@
                                 <td>{{item.comments|default:"N/A"}}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-xs">编辑</button>
-                                    <button type="button" class="btn btn-primary btn-xs">删除</button>
+                                    <button type="button" class="btn btn-primary btn-xs" onclick="del('delIdc','{{item.id}}','{{item.name}}')">删除</button>
                                 </td>
                             </tr>
                             {% endfor %}

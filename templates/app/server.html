@@ -27,12 +27,13 @@
             {% if data.status %}
             <div class="panel-body">
                 <div class="table-responsive">
-                    <table class="table table-condensed table-striped">
+                    <table class="table table-condensed table-striped" id="serverList">
                         <thead>
                             <tr>
                                 <th>#</th>
+                                <th>主机名</th>
                                 <th>主机IP</th>
-                                <th>主机所在机房</th>
+                                <th>内网IP</th>
                                 <th>需要部署的服务</th>
                                 <th>是否在国内</th>
                                 <th>运行状态</th>
@@ -45,17 +46,24 @@
                             {% for item in data.serverList %}
                             <tr>
                                 <td>{{item.id}}</td>
+                                <td>{{item.detail_set.all.0.hostname|default:"N/A"}}</td>
                                 <td>{{item.public_ip}}</td>
-                                <td>{{item.cloud.name}}</td>
+                                <td>{{item.detail_set.all.0.internal_ip|default:"N/A"}}</td>
                                 <td>{{item.product.name}}</td>
                                 <td>{{item.in_china}}</td>
-                                <td>{{item.server_status}}</td>
+                                {% if item.server_status == 'not running' %}
+                                <td><font color="red">{{item.server_status}}</font></td>
+                                {% elif item.server_status == 'deploying' %}
+                                <td><font color="yellow">{{item.server_status}}</font></td>
+                                {% else %}
+                                <td><font color="green">{{item.server_status}}</font></td>
+                                {% endif %}
                                 <td>{{item.create_time}}</td>
                                 <td>{{item.update_time|default:"N/A"}}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-xs" onclick="show_server_detail({{item.id}})">详情</button>
                                     <button type="button" class="btn btn-primary btn-xs">编辑</button>
-                                    <button type="button" class="btn btn-primary btn-xs">删除</button>
+                                    <button type="button" class="btn btn-primary btn-xs" onclick="del('delServer','{{item.id}}', '{{item.public_ip}}')">删除</button>
                                 </td>
                             </tr>
                             {% endfor %}
