@@ -7,6 +7,7 @@ from . import models
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import SESSION_KEY
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.template import RequestContext
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -15,10 +16,15 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
+@login_required
 def index(request):
-    return render(request, "app/index.html")
+    server_num = models.Server.objects.all().count()
+    cloud_num = models.Cloud.objects.all().count()
+    product_num = models.Product.objects.all().count()
+    return render(request, "app/index.html", {'sn': server_num, 'cn': cloud_num, 'pn': product_num})
 
 
+@login_required
 def idc(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")

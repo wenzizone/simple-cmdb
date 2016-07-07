@@ -1,9 +1,11 @@
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 
 from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'login', auth_views.login, {'template_name': 'app/login.html'}),
     url(r'idc$', views.idc, name='idc'),
     url(r'product$', views.product, name='product'),
     url(r'server$', views.server, name='server'),
