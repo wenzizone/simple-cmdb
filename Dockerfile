@@ -13,7 +13,7 @@ COPY . /opt/cmdb/
 RUN rm -rf /opt/cmdb/.git
 
 RUN cd /opt/cmdb/static \
-    && bower install
+    && bower install --allow-root
 
 WORKDIR /opt/cmdb
 
