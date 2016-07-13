@@ -43,21 +43,23 @@
                         <h3 class="panel-title">无忧运维-资产管理系统 登录</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form">
+                        <form role="form" method="post">
+                            {% csrf_token %}
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                    <input class="form-control" placeholder="Username" name="username" type="username" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="Password" name="password" type="password" value="">
                                 </div>
+                                <input type="hidden" name="next" value="{{ next }}" />
                                 <div class="checkbox">
                                     <label>
                                         <input name="remember" type="checkbox" value="Remember Me">Remember Me
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="" class="btn btn-lg btn-success btn-block" id='next-url'>Login</a>
+                                <input type="submit" class="btn btn-lg btn-success btn-block" value="Login">
                             </fieldset>
                         </form>
                     </div>
@@ -80,13 +82,6 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{% static "dist/js/sb-admin-2.js" %}"></script>
-
-    <script type="text/javascript">
-            var url = $.url();
-            var next_url = url.param('next');
-            $('a#next-url').attr('href', next_url);
-            //$('#'+url.split('#')[1]).trigger('click');
-    </script>
 
 </body>
 

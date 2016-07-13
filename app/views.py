@@ -4,9 +4,9 @@ import json
 import datetime
 
 from . import models
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import SESSION_KEY
+from django.contrib.auth import SESSION_KEY, logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.core import serializers
 from django.template import RequestContext
@@ -29,7 +29,7 @@ def idc(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
     data = {}
-    #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
+    # theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
     idcNameList = models.Cloud.objects.all()
     if idcNameList:
         data = {'status': True, 'idcNameList': idcNameList}
@@ -41,11 +41,12 @@ def idc(request):
     return render(request, "app/idc.html", {'data': data})
 
 
+@login_required
 def product(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
     data = {}
-    #theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
+    # theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
     productList = models.Product.objects.all()
     if productList:
         data = {'status': True, 'productList': productList}
@@ -57,6 +58,7 @@ def product(request):
     return render(request, "app/product.html", {'data': data})
 
 
+@login_required
 def server(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
