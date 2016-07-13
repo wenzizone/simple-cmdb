@@ -3,7 +3,7 @@ MAINTAINER wenzizone <wenzizone@126.com>
 
 EXPOSE 8989
 
-RUN apk add py-pip \
+RUN apk add --update py-pip \
     && pip install django \
     && apk cache clean
 
