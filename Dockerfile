@@ -4,7 +4,7 @@ MAINTAINER wenzizone <wenzizone@126.com>
 EXPOSE 8989
 
 RUN apk update \
-    && apk add py-pip nodejs \
+    && apk add py-pip nodejs git \
     && pip install django \
     && npm install -g bower \
     && rm -rf /var/cache/apk/*
