@@ -6,7 +6,7 @@ EXPOSE 8989
 RUN apk update \
     && apk add py-pip nodejs \
     && pip install django \
-    && npm install -g bower
+    && npm install -g bower \
     && rm -rf /var/cache/apk/*
 
 COPY . /opt/cmdb/
