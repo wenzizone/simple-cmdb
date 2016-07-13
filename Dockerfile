@@ -17,10 +17,10 @@ RUN cd /opt/cmdb/static \
     && bower install --allow-root -f
 
 # clean up unuse package
-RUN npm uninstall -g bower \
-    && apk update \
-    && apk del nodejs git py-pip \
-    && rm -rf /var/cache/apk/*
+#RUN npm uninstall -g bower \
+#    && apk update \
+#    && apk del nodejs git py-pip \
+#    && rm -rf /var/cache/apk/*
 
 WORKDIR /opt/cmdb
 
