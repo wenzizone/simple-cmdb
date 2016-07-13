@@ -18,9 +18,21 @@ from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def index(request):
-    server_num = models.Server.objects.all().count()
-    cloud_num = models.Cloud.objects.all().count()
-    product_num = models.Product.objects.all().count()
+    try:
+        server_num = models.Server.objects.all().count()
+    except Exception, e:
+        server_num = 0
+
+    try:
+        cloud_num = models.Cloud.objects.all().count()
+    except Exception, e:
+        cloud_num = 0
+
+    try:
+        product_num = models.Product.objects.all().count()
+    except Exception, e:
+        product_num = 0
+
     return render(request, "app/index.html", {'sn': server_num, 'cn': cloud_num, 'pn': product_num})
 
 

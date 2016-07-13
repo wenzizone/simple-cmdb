@@ -22,7 +22,7 @@ DB_DIR = os.path.join(BASE_DIR, "db")
 SECRET_KEY = '1m8ud!%r8ofl*^-2%w6e-+u5#a=deyt3n*t*9z-lwr$w(h9&73'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
