@@ -42,11 +42,14 @@ def idc(request):
     #    return HttpResponseRedirect("/login")
     data = {}
     # theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
-    idcNameList = models.Cloud.objects.all()
+    try:
+        idcNameList = models.Cloud.objects.all()
+    except Exception, e:
+        idcNameList = None
+
     if idcNameList:
         data = {'status': True, 'idcNameList': idcNameList}
     else:
-
         data = {'status': False}
         print data
 
@@ -59,7 +62,11 @@ def product(request):
     #    return HttpResponseRedirect("/login")
     data = {}
     # theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
-    productList = models.Product.objects.all()
+    try:
+        productList = models.Product.objects.all()
+    except Exception, e:
+        productList = None
+
     if productList:
         data = {'status': True, 'productList': productList}
     else:
@@ -75,9 +82,20 @@ def server(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
     data = {}
-    cloudList = models.Cloud.objects.all()
-    productList = models.Product.objects.all()
-    serverList = models.Server.objects.all()  # .select_related('detail_set')
+    try:
+        cloudList = models.Cloud.objects.all()
+    except Exception, e:
+        cloudList = None
+
+    try:
+        productList = models.Product.objects.all()
+    except Exception, e:
+        productList = None
+
+    try:
+        serverList = models.Server.objects.all()  # .select_related('detail_set')
+    except Exception, e:
+        serverList = None
 
     if serverList:
         data = {'status': True, 'serverList': serverList, 'cloudList': cloudList,
