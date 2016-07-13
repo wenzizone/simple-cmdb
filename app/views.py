@@ -18,21 +18,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 @login_required
 def index(request):
-    try:
-        server_num = models.Server.objects.all().count()
-    except Exception, e:
-        server_num = 0
-
-    try:
-        cloud_num = models.Cloud.objects.all().count()
-    except Exception, e:
-        cloud_num = 0
-
-    try:
-        product_num = models.Product.objects.all().count()
-    except Exception, e:
-        product_num = 0
-
+    server_num = models.Server.objects.all().count()
+    cloud_num = models.Cloud.objects.all().count()
+    product_num = models.Product.objects.all().count()
     return render(request, "app/index.html", {'sn': server_num, 'cn': cloud_num, 'pn': product_num})
 
 
@@ -42,14 +30,11 @@ def idc(request):
     #    return HttpResponseRedirect("/login")
     data = {}
     # theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
-    try:
-        idcNameList = models.Cloud.objects.all()
-    except Exception, e:
-        idcNameList = None
-
+    idcNameList = models.Cloud.objects.all()
     if idcNameList:
         data = {'status': True, 'idcNameList': idcNameList}
     else:
+
         data = {'status': False}
         print data
 
@@ -62,11 +47,7 @@ def product(request):
     #    return HttpResponseRedirect("/login")
     data = {}
     # theme = {'home':"",'serverinstall':"", "assetsmanager":"active", 'idc':'active', 'ippools':"", "servers":"", "gameinfo":""}
-    try:
-        productList = models.Product.objects.all()
-    except Exception, e:
-        productList = None
-
+    productList = models.Product.objects.all()
     if productList:
         data = {'status': True, 'productList': productList}
     else:
@@ -82,20 +63,9 @@ def server(request):
     # if not request.user.is_authenticated():
     #    return HttpResponseRedirect("/login")
     data = {}
-    try:
-        cloudList = models.Cloud.objects.all()
-    except Exception, e:
-        cloudList = None
-
-    try:
-        productList = models.Product.objects.all()
-    except Exception, e:
-        productList = None
-
-    try:
-        serverList = models.Server.objects.all()  # .select_related('detail_set')
-    except Exception, e:
-        serverList = None
+    cloudList = models.Cloud.objects.all()
+    productList = models.Product.objects.all()
+    serverList = models.Server.objects.all()  # .select_related('detail_set')
 
     if serverList:
         data = {'status': True, 'serverList': serverList, 'cloudList': cloudList,
